@@ -1,0 +1,11 @@
+.success {
+  color: green;
+}
+
+.failure {
+  color: red;
+}
+
+.card-button {
+  margin: 0.354rem 0;
+}
