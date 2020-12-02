@@ -1,15 +1,16 @@
 import { Component, Host, h } from '@stencil/core';
 
 @Component({
-  tag: 'app-button',
+  tag: 'app-modal',
+  styleUrl: 'app-modal.css',
   shadow: true,
 })
-export class AppButton {
+export class AppModal {
 
   render() {
     return (
       <Host>
-        <p>Hello Button</p>
+        <slot></slot>
       </Host>
     );
   }
