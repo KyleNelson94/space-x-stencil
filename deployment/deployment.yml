@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-sophia
+  labels:
+    app: projectsophia
+spec:
+  selector:
+    matchLabels:
+      app: projectsophia
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: projectsophia
+    spec:
+      containers:
+        - name: projectsophia
+          image: space-x:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+              name: http-server
