@@ -1,4 +1,5 @@
-import { Component, h, State } from '@stencil/core';
+import { Component, h, State, Watch } from '@stencil/core';
+import state from '../../state/store';
 
 @Component({
   tag: 'app-home',
@@ -10,13 +11,14 @@ export class AppHome {
   @State() allLaunchData: any;
   @State() allRocketsData: any;
   @State() showModal: boolean;
+  @State() modalTitle: string;
   @State() modalContent: string;
 
   async componentWillLoad() {
     let allDataFetch = null;
     let allRocketFetch = null;
     const BASE_URL = "https://api.spacexdata.com/v4";
-    this.showModal = false;
+    this.showModal = state.modalOpen;
 
     try {
       let launchesFetch = await fetch(`${BASE_URL}/launches`);
@@ -47,9 +49,11 @@ export class AppHome {
     return vehicleName;
   };
 
-  toggleModal() {
+  toggleModal(title:string, content:string) {
     this.showModal = !this.showModal;
-    console.log("Hello", this.showModal);
+    state.modalOpen = this.showModal;
+    this.modalTitle = title;
+    this.modalContent = content;
   }
 
   render() {
@@ -62,7 +66,11 @@ export class AppHome {
       </ion-header>,
 
       <ion-content class="ion-padding" fullscreen>
-
+        <app-modal
+          showModal={ this.showModal }
+          modalTitle={ this.modalTitle }
+          modalContent={ this.modalContent }
+        />
         <ion-grid>
           <ion-row>
             { this.allLaunchData.length > 0 &&
@@ -72,6 +80,9 @@ export class AppHome {
               //const flightLaunchpad = launch.launchpad;
               let flightSuccess = launch.success;
               //let fairingsObj = launch.fairings;
+              const flightName = launch.name;
+              const flightDetails = launch.details;
+              console.log("LAUNCH ---------------->", launch);
 
               flightVehicle = this.getRocketType(flightVehicle);
 
@@ -99,7 +110,7 @@ export class AppHome {
                       </ul>
 
                       <ion-button
-                        onClick={() => this.toggleModal() }
+                        onClick={() => this.toggleModal(flightName, flightDetails) }
                         color="dark"
                         expand="full"
                         class="card-button"

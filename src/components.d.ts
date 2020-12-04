@@ -9,6 +9,9 @@ export namespace Components {
     interface AppHome {
     }
     interface AppModal {
+        "modalContent": string;
+        "modalTitle": string;
+        "showModal": boolean;
     }
     interface AppProfile {
     }
@@ -51,6 +54,9 @@ declare namespace LocalJSX {
     interface AppHome {
     }
     interface AppModal {
+        "modalContent"?: string;
+        "modalTitle"?: string;
+        "showModal"?: boolean;
     }
     interface AppProfile {
     }
